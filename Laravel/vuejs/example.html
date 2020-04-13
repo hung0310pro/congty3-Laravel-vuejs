@@ -1,0 +1,116 @@
+<!-- http://localhost:8080/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vuejs</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<style type="text/css">
+		.testcondition1{
+			height: 100px;
+			width: 100px;
+			color: white;
+			background-color: red;
+		}
+
+		.testcondition2{
+			height: 100px;
+			width: 100px;
+			color: white;
+			background-color: black;
+		}
+	</style>
+</head>
+<body>
+	đây là vujs
+	<div id="app">
+        {{ true ? 'YES' : 'NO' }} <!-- viết if else  -->
+
+		<h1>{{ title }}</h1> <!-- lấy giá trị 1 biến trong vuejs -->
+		<h2>{{ say("Lê Hùng") }}</h2>
+		<a v-bind:href="url" v-bind:target="target">{{ link }}</a>
+		<button v-bind:disabled="isButtonDisabled">Button</button>
+
+		<span style="cursor: pointer;" v-on:click="ClickTest">Click function</span>
+		<br>
+		<a style="cursor: pointer;" v-on:click="ClickCount($event)">Click Count</a>
+		<h1>Count : {{ count }}</h1>
+
+
+		<div>
+			<form action="test.php" v-on:submit.prevent="onSubmitForm($event)">
+				<label>Email : </label>
+				<input type="text" name="email">
+				<label>Name : </label>
+				<input type="text" name="name">
+				<button type="submit">Đăng Nhập</button>
+			</form>
+		</div> 
+
+<!-- Tìm hiểu về Computed (Computed)-->
+        <p>Test Computed with number : {{ number }}</p>
+		<button v-on:click="a++">A = A + 1</button> <!-- a++ biến a trong data -->
+		<p>number + {{ a }}= {{ addA }}</p> <!-- mặc dù làm hàm nhưng bỏ dấu () đi -->
+		<button v-on:click="b++">B = B + 1</button>
+		<p>number + {{ b }}= {{ addB }}</p>
+<!--  end Tìm hiểu về Computed -->	
+
+	<!-- 09 Ràng buộc dữ liệu 2 chiều (haichieu) -->
+	<br>
+	<br>
+	<h3>First Name = {{ firstname }}</h3>
+	<input v-model="firstname" type="text">	
+	<!--  end -->
+    <br><br>
+
+	</div>
+
+	<div id="app2">
+<!-- bài 11 - 20 -->
+      <!-- 12 Render Template dùng biểu thức điều kiện -->
+        <button v-on:click="Condition()">Button test condition</button>
+      	<div class="testcondition1" v-if="classtest === 'testcondition1'">
+      		test condition 1
+      	</div>
+      	<div class="testcondition2" v-if="classtest === 'testcondition2'">
+      		test condition 2
+      	</div>	
+      <!--  end -->
+
+      <br><br>
+      <!-- 13 Render Template dùng vòng lặp trong VueJs v-for -->
+       <div>
+       	<ul id="example-2">
+		  <li v-for="(value, key) in items">
+		    {{ key }} - {{ value.name }}
+		  </li>
+		</ul>
+       </div>
+
+       <!-- hoặc có thể dùng of như es6 -->
+       <div>
+       	<ul id="example-2">
+		  <li v-for="value of ofitems">
+		    	{{ value }}
+		  </li>
+		</ul>
+       </div>
+
+      <!--  end -->
+
+      <!-- 14 Lưu ý về Loop và Condition trong VueJS, kiểu những dữ liệu là true show ra, còn false thì bỏ đi -->
+       <div>
+       	Những cái active Loop và Condition trong VueJS
+       	<ul id="example-2">
+		  <li v-for="(value, key) in itemsConditionComputed">
+		    {{ key }} - {{ value.name }}
+		  </li>
+		</ul>
+       </div>
+      <!--  end -->
+<!--  end -->
+	</div>
+</body>
+    <script type="text/javascript" src="example.js"></script>
+    <script type="text/javascript" src="example2.js"></script>
+</html>

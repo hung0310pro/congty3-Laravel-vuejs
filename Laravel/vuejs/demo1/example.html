@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<h1>This is a demo</h1>
+	<div id="app">
+		<div class="image-photo" style="width: 100%;">
+			<div class="image photo" style="float: left; width: 50%;">
+				<img v-bind:src="imageDefault" style="width: 300px; height: 400px;">
+				<p v-if="listData[defaulColor].quantity > 0">Số lượng : {{ listData[defaulColor].quantity }}</p>
+				<p v-if="listData[defaulColor].quantity <= 0">Hết hàng rồi bạn ơi</p>
+			</div>
+
+			<div class="all-select" style="float: left;width: 50%">
+				<ul>
+					<li v-for="(value, key) in listData">
+						<span v-on:click="changColor(key)" v-bind:style="{color: value.color}" style="font-size: 25px; cursor: pointer">{{ value.textcolor }}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="add-cart" style="width: 100%; clear: left;">
+			<button style="background-color: orange; color: white; width: 100px; height: 50px;">Add To Cart</button>
+		</div>
+	</div>
+</body>
+    <script type="text/javascript" src="example.js"></script>
+</html>

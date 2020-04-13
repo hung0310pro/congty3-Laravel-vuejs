@@ -1,0 +1,183 @@
+++ Middleware đúng như ý nghĩa từ tên gọi của nó, là đoạn code trung gian đứng giữa request và response (xem hình trên), cung cấp một cơ chế bộ lọc. Ví dụ: Laravel cung cấp một middleware để xác nhận xem một người dùng đã xác thực chưa, nếu người dùng đã qua xác thực sẽ được chuyển hướng đến trang quản trị hoặc nếu chưa xác thực sẽ được chuyển đến trang đăng nhập.
+
++ Tất cả middleware đều nằm trong app/Http/Middleware
+
++ Tạo : php artisan make:middleware <middleware-name>(php artisan make:middleware CheckAge)
+
+++ Chúng ta cần đăng ký middleware với hệ thống trước khi sử dụng chúng, có hai loại middleware:
+
++ Global middleware : là middleware sẽ được sử dụng với bất kể yêu cầu HTTP đến hệ thống, đơn giản là thêm middleware này vào thuộc tính $middleware trong class app/Http/Kernel.php.
+
++ Route middleware : là gắn một middleware với một route xác định, trước khi gắn một route với một middleware phải liệt kê chúng vào thuộc tính $routeMiddleware trong class app/Http/Kernel.php.
+
+++ Khi middleware đã được định nghĩa trong HTTP Kernel chúng ta có thể gán chúng với các route:
+
+Route::get('/dashboard', function () {
+    // Mã xử lý khác viết ở đây
+})->middleware('checkage');
+
+++ Có thể sử dụng nhiều middleware cho một route
+
+Route::get('/dashboard', function () {
+    //
+})->middleware('auth', 'checkage');
+
+++ Truyền tham số cho Middleware
+
++ Ví dụ tạo 1 file là RoleMiddleware, nội dung trong file sẽ là như sau : 
+
++++ Middleware Parameters(Ví dụ, nếu chương trình cần xác nhận user đã được xác thực có "role" cụ thể trước khi thực hiện một thao tác nào đó)(1)
+ví dụ (1)
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class CheckRole
+{
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $role
+     * @return mixed
+     */
+    public function handle($request, Closure $next, $role)
+    {
+        if (! $request->user()->hasRole($role)) {
+            // Redirect...
+        }
+
+        return $next($request);
+    }
+
+}
+
+<?php
+namespace App\Http\Middleware;
+use Closure;
+class RoleMiddleware
+{
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $role
+     * @return mixed
+     */
+    public function handle($request, Closure $next, $role)
+    {
+        echo 'Vai trò:' . $role;
+        return $next($request);
+    }
+}
+
+- Tiếp theo đăng ký middleware ở trong protected $routeMiddleware
+- Tạo 1 controller vs nội dung như sau : 
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class MainController extends Controller
+{
+    public function checkRole(){
+        echo "<br>Main Controller: checkRole function";
+   }
+}
+
+- Sau đó ở router ta sẽ viết : 
+
+Route::get('/role',[
+   'middleware' => 'role:superadmin',
+   'uses' => 'MainController@checkRole',
+]);
+(cái này nó sẽ chạy vào middleware trước, sau đó ms chạy vào controller)
+kết quả sẽ là : 
+Vai trò:superadmin
+Main Controller: checkRole function
+
+
++++ Ngoài ra còn có nhóm middleware 
+
+++ Ở đây chúng ta thấy với key "web" đã nhóm lại rất nhiều các Middleware khác nhau. Khi đó gắn middleware cho các route đơn giản như sau:
+
+Route::get('/', function () {
+    //
+})->middleware('web');
+
+Route::group(['middleware' => ['web']], function () {
+    //
+});
+
++++ Terminable Middleware
+
+++ Đôi khi một Middleware cần làm vài việc sau khi HTTP response được gửi đến trình duyệt, ví dụ một middleware sẽ ghi dữ liệu session vào storage "Sau" khi HTTP response đã gửi đến trình duyệt. "Để làm việc này" bạn chỉ cần định nghĩa một hàm tên là terminate trong Middleware đó, nó sẽ được gọi đến khi HTTP response gửi đến trình duyệt. Chúng ta sẽ cùng nhau thực hành: Trong RoleMiddleware ở trên thêm nội dung như sau:
+
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class RoleMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next, $role)
+    {
+        echo '1. Middleware';
+        echo '<br>Vai trò:' . $role;
+        echo '<br>Thực hiện khi đang xử lý HTTP response';
+        return $next($request);
+    }
+
+    public function terminate($request, $response)
+    {
+        echo '<br>3. Terminable Middleware';
+        echo '<br>Thực hiện sau khi HTTP response gửi đến trình duyệt';
+    }
+}
+
+- trong controller 
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class MainController extends Controller
+{
+    public function checkRole(){
+        echo "<br>2. MainController@checkRole";
+        echo "<br>Main Controller: checkRole function";
+        echo "<br>Thực hiện sau khi qua bộ lọc Middleware và trước khi gửi HTTP response";
+   }
+}
+
+- vs router 
+
+Route::get('/role',[
+   'middleware' => 'role:superadmin',
+   'uses' => 'MainController@checkRole',
+]);
+
+thì nó sẽ chạy vào function handler của middleware trước, sau đó ms chạy vào controlller, cuối cùng ms chạy vào  terminate của middleware(https://prnt.sc/rph3ju)
+
+
+++ Ngoài ra còn có before vs after middleware 
+Việc một middleware chạy trước hay sau một request phụ thuộc vào chính middleware nó. Ví dụ, middleware dưới đây sẽ thực hiện vài tác vụ trước khi request được chương trình xử lý:
+
+https://viblo.asia/p/middleware-trong-laravel-58-oOVlYBja58W
+

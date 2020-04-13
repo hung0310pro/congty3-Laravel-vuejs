@@ -1,0 +1,21 @@
++++ Factory Method Pattern (hay còn được gọi với cái tên ngắn gọn hơn là Factory Pattern) là một design pattern thuộc nhóm khởi tạo (Creational patterns). Pattern này được sinh ra nhằm mục đích khởi tạo một đối tượng mới mà không cần thiết phải chỉ ra một cách chính xác class nào sẽ được khởi tạo.
+
+xem ví dụ trong đây : https://viblo.asia/p/design-pattern-trong-php-phan-1-wpVYRPWLv4ng
+
+https://vi.fitwp.com/factory-method-pattern/
+
++++ Nên sử dụng Factory Method Pattern khi nào nhỉ?
++ Factory Method Pattern phát huy được ưu điểm của nó trong một số trường hợp sau:
+
+- Khi bạn chưa biết nên khởi tạo đối tượng mới từ class nào.
+
+- Khi bạn muốn tập trung các đoạn code liên quan đến việc khởi tạo các đối tượng mới về cùng một nơi để dễ thao tác và xử lý.(class ShapeFactory ở ví dụ ở vibo)
+
+- Khi bạn không muốn người dùng phải biết hết tên của các class có liên quan đến quá trình khởi tạo cũng như muốn che giấu, đóng gói toàn bộ logic của quá trình khởi tạo một đối tượng mới nào đó khỏi phía người dùng.
+
++++ Ưu điểm
+- Factory Method Pattern giúp hạn chế sự phụ thuộc giữa creator và concrete products.
+- Factory Method Pattern giúp gom các đoạn code tạo ra product vào một nơi trong chương trình, nhờ đó giúp dễ theo dõi và thao tác.
+- Với Factory Method Pattern, chúng ta có thể thoải mái thêm nhiều loại product mới vào chương trình mà không làm thay đổi các đoạn code nền tảng đã có trước đó.
++++ Nhược điểm
+Code có thể trở nên nhiều hơn và phức tạp hơn do đòi hỏi phải sử dụng nhiều class mới có thể cài đặt được pattern này.

@@ -1,0 +1,158 @@
++++ 1 số cái hay được chèn vào thẻ
+
+- <h1>{{ title }}</h1> lấy giá trị 1 biến trong vuejs được khai báo trong chỗ data, hoặc đối vs trường hợp là
+ở trong "computed" như là <p>number + {{ a }}= {{ addA }}</p> (file example.html) (thường để in giá trị)
+
+- nếu ở trong v-if or v-for thì k cần dấu ngoặc nhọn(<div class="testcondition1" v-if="classtest === 'testcondition1'">)
+
+- <a v-bind:href="url" v-bind:target="target">{{ link }}</a> thêm các cái v-bind khi mà truyền giá trị các cái liên
+quan tới attribute cho các thẻ (url ở trên là 1 biến đã đc khai báo trong data http://prntscr.com/ryieqr).
+Ngoài ra còn đc dùng cho truyền biến sang component(vuejsCLI)
+
+- v-on thì dùng cho các sự kiện cho các hàm như là : click,keyup...(thao tác được vs các biến), hoặc đôi khi sẽ là tạo name cho các "EVENT"(App.vue trong vuejs.CLI)
+
+- v-if, v-else if.. dùng để check các điều kiện (thao tác được vs các biến or methods, computed).
+
+- v-for dùng để for các Array, obj trong các thẻ (thao tác được vs các biến)
+
+- v-model Ràng buộc dữ liệu 2 chiều (haichieu)(example.html)
+
+- trong file js thì gọi đến các biến or các mảng trong "data" thì dùng this.
+
+// khi 1 đối tượng được khởi tạo thì khi truyền vào 1 obj(data), thì các thông tin liên quan
+// tới dữ liệu(data) or methods(methods phải khi đúng methods nhé thì ms hiểu cái 'say là 1 hàm')
+// nó sẽ tự động gắn vào đối tượng  vujsInstance
+
+var vujsInstance = new Vue({
+  el: '#app',
+  data: {
+    title : 'Điện thoại SamSung',
+    link : 'Google',
+    url : 'https://www.google.com.vn/',
+    target : "_blank"
+  },
+
+  methods: {
+    say(text){
+      return `Hello ${text}`;
+    } 
+  } 
+});
+
+- el: '#app', định nghĩa cái phần sử dụng những cái ở trong data vs methods
+- Nếu là attribute(href,id,style...) thì sẽ là v-bind:href="url"
+- nếu bt thì sẽ là {{title}}
+
+
++++ bt khi ấn submit form thì nó sẽ reload trang sang 1 trang php
+v-on:submit.prevent="onSubmitForm($event)" cái này kiểu bỏ chuyển trang nếu submit form,
+cái này giống cái e.preventDefault(); của js
+
+- <a v-on:click.stop="doThis"></a> :  cái này kiểu ví dụ
+
+  <div id = "aaa">
+    <a v-on:click.stop="doThis">Test</a>
+  </div>
+thì khi click vào thẻ a(Test) thì nó sẽ k bị chạy vào cả tk "div có id là aaa", mặc dù thẻ a nằm trong "div có id là aaa".
+
++++ (haichieu) là kiểu điền dữ liệu vào ô input(dạng keyup) sau đó lấy giá trị đó gán dữ value vào 'firstname ở trong data'
+Ngoài ra còn rất nhiều cái hay trong này liên quan checkbox, select option...
+https://vi.vuejs.org/v2/guide/forms.html
+
++++ Tham khảo class và style của vujs(http://prntscr.com/rxml8l).
+
++++ 12 Render Template dùng biểu thức điều kiện
+v-if, v-else if...
+- Ví dụ 1 class a, mình check nếu class nó bằng AA thì nó sẽ show ra div1 còn nếu nó bằng BB thì show div2
+- Ngoài ra còn có v-show. Cái này khác tk v-if là nó vẫn có đầy đủ div1 và div2 ở trình duyệt tuy nhiên 1 tk sẽ bị none
+
++++ v-for xem ví dụ là hiểu
+
++++ Lưu ý quan trọng về Array và Object trong VueJs tham khảo tại đây (https://vi.vuejs.org/v2/guide/list.html) (Importain)
+
+
+******************************* vuejsCLI : ứng dụng đơn trang(single page application) 1 trang web nó sẽ chưa nhiều thành phần(header,footer,body) thì tương ứng vs mỗi tk này thì là 1 file html,css,js riêng nên vuejs đó cho mình tk này để dùng.
++++ cách cài đặt :
+$ npm install -g vue-cli
+$ vue init webpack nameproject(chú ý k viết hoa và k viết dài)
+$ cd my-project
+$ npm install
+$ npm run dev
+
++++ 1 file App.vue thì gồm 3 phần
+  - template : chỗ viết html thao tác các đoạn code...
+  - script :  viết các js
+  - style : style html.
+
++++ 23 Cấu trúc Project và Cấu hình cơ bản Webpack ở trong file webpack.config.js
+
++++ import các component cho vào các tk cha (App.vue)
+/* 1 component thì có nhiều component con
+* App chứa (header, footer,listuser..., đây là chỗ khai báo import nó (1,2,3))
+
++++ props
+- Truyền 1 biến đã được định nghĩa trong file cha rồi ném vào file con(App -> ComponentHeader)
+
++++ (Quan trọng) Thay đổi giá trị biến theo sự kiện (file App.vue và ComponentHeader.vue trong vuejsCLI):
+thay đổi theo sự kiện :
+- Nếu từ thằng cha truyền biến sang tk con sau đó đổi biến từ tk cha thì được
+- Nếu muốn thay đổi giá trị biến từ con(mà đc tk cha truyền sang) thì phải dùng "Event"
+ ( v-on:nameTitleEvent="changTitleEvent"(3) khai báo như vậy trong component của tk cha(1 cái là name sự kiện, cái còn lại là tên của methods chạy sự kiện))
+  -- Truyền sự kiện thông báo ra ngoài
+  -- Kích hoạt sự kiện trong tk cha (như ví dụ này thì là nameTitleEvent(đây là name của event))
+  -- Khi được kích hoạt thì sự kiện sẽ chạy(sự kiện nameTitleEvent sẽ chạy) từ đó dữ liệu đc thay đổi
+
+ Đây là đoạn viết bên tk con
+ -- tạo 1 function để gọi tới sự kiện bên cha và truyền biến
+  methods: {
+      changTitleHeaderApp(){
+          var data = {
+              title:'đây là title của Component Header change 2'
+          };
+          /* call đến sự kiện bên tk cha, và truyền dữ liệu muốn đổi sang đó */
+          this.$emit('nameTitleEvent', data);
+      }
+  }
+ -- Đây là đoạn xử lí bên cha, khi đã nhận được dữ liệu từ bên tk con
+  methods: {
+      changTitleEvent(data){
+         /* this.titleApp = "Đây là title được thay đổi fix cứng bên cha";*/
+          this.titleApp = data.title;
+      }
+  }
+// Ngoài ra còn xóa dữ liệu trong mảng dựa theo "Event Lồng Event" (App, ComponentListUser,ComponentUser).
+(https://www.youtube.com/watch?v=eCBNb_oXXXo&list=PLv6GftO355AtDjStqeyXvhA1oRLuhvJWf&index=28
+https://www.youtube.com/watch?v=cknFCIq3Nxg&list=PLv6GftO355AtDjStqeyXvhA1oRLuhvJWf&index=29
+)
+
++++ 31 Tìm hiểu về Life Cycle(http://prntscr.com/ryhad9,
+https://www.youtube.com/watch?v=riY6thnJbwg&list=PLv6GftO355AtDjStqeyXvhA1oRLuhvJWf&index=32
+)
+- các hàm before cần lưu ý vì nó thường chạy "TRƯỚC" khi load hết html nên đôi khi call đến các phần tử html mà chưa có(http://prntscr.com/ryhdhg)
+- trong đó có hàm created là quan trọng nhất (call api, ajax...)
+- mounted cx quan trọng(thường viết jquery trong đó)
+- còn cái update là kiểu khi mà ví dụ chạy sự kiện update lại title header thì nó sẽ chạy vào thôi
+- xem kỹ clip để hiểu rõ hơn
+
++++ 29 Sử dụng Ref trong Vue
+- cái này dùng để tham chiếu tới các phần tử html
+- ví dụ có tk
+    <button v-on:click="RefFileDemoTest">Ref File Demo</button>
+    <input id="fileupload" type="file" style="display: none;" ref="RefFileDemo">
+do tk input xấu k thích hiện ra thì dùng tk button kia, khi click button thì nó sẽ show ra cái popup để upload file như mọi lần(App.vue)
+
++++ slot trong vuejs
+- Ném 1 đoạn văn bản bao hồm div, thẻ html... vào 1 cái component khác(check App.vue, ComponentUser.vue)
+<!-- slot trong vuejs -->
+- App.vue
+<componentUser>
+    <div class="slot-invuejs">
+        <p style="color: red;">
+            Một cái beat thật child đưa ta về với bản chất
+        </p>
+    </div>
+</componentUser>
+- ComponentUser.vue
+<h1>Demo slot test</h1>
+<slot></slot>
+

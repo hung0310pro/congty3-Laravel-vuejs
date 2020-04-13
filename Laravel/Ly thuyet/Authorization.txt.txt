@@ -1,0 +1,131 @@
++++ Authorization tk này hiểu là phân quyền sau khi 1 user đăng nhập thì có những quyền làm gì.
+
++++ Có 2 cách để authorize trong Laravel: Gates và Policies. Đầu tiên chúng ta sẽ đi tìm hiểu về Gates trong Laravel
+
+1)++ Gates chủ yếu dùng cho việc authorize các action riêng lẻ. Nói cách khác, khi bạn muốn cấp quyền một hành động không liên quan đến model cụ thể nào, thì nên dùng gate để triển khai logic đó. Ta sẽ định nghĩa các rằng buộc "trong method boot" của "AuthServiceProvider" và sử dụng facade Gate.
+
++ Ví dụ như người dùng sẽ có quyền thay đổi cập nhật comment của mình chẳng hạn
+
+Trong file App\Providers\AuthServiceProvider.php
+
+public function boot()
+{
+    $this->registerPolicies();
+   
+    Gate::define('edit-comment', function ($user, $commment) { (1)
+        return $user->id == $comment->user_id;
+    });
+}
+
+Gate::define() sẽ định nghĩa một điều kiện giữa người dùng và thông tin commment, tức là nếu nó trả về true thì người dùng được phép sửa comment và ngược lại thì không được sửa.
+
+++ alows - denies - forUser trong Gate
+
+if (Gate::allows('update', $post)) {
+    // The current user can update the post...
+}
+
+if (Gate::denies('update', $post)) {
+    // The current user can't update the post...
+}
+
+- Nếu bạn muốn xem "một người dùng bất kỳ"(Khách hàng) có được xác thực để thực hiện 1 action trong hệ thống của các bạn hay không thì các bạn có thể dùng phương thức forUser : 
+
+if (Gate::forUser($user)->allows('update', $post)) {
+    // The user can update the post...
+}
+
+if (Gate::forUser($user)->denies('update', $post)) {
+    // The user can't update the post...
+}
+
+if (Auth::user()->can('update', $post)){
+    // The user can update the post...
+}
+
+Và để cho phép authorized thì trong controller chúng ta sẽ dùng câu lệnh sau :
+
+public function index()
+{
+    $comment = Comment::findOrFail(1); // comment có id = 1 có user_id = 1
+    if (Gate::allows('edit-comment', $comment)) {
+        echo "Ban co quyen chinh sua comment";
+    } else {
+        echo "Ban khong co quyen chinh sua comment";
+    }
+}
+
+Cái tk biến $user của tk 1 thì k cần điền nữa vì khi mình đăng nhập thì Laravel đã tự hiểu rồi
+
+
+2)++ Policies là các "class quản lý logic trong phân quyền liên quan đến Model hoặc tài nguyên nào đó". Ví dụ, các bạn có model Comment và một policy CommentPolicy để phân quyền xem người dùng nào sẽ được chỉnh sửa hay cập nhật comment của mình.
+
++ Tạo policy : php artisan make:policy CommentPolicy or php artisan make:policy CommentPolicy --model=Comment
+
++ Register Policy : App\Providers\AuthServiceProvider.php
+
+use App\Comment;
+use App\Policies\CommentPolicy;
+
+protected $policies = [
+    Comment::class => CommentPolicy::class,
+];
+
++ Writing Policy : trong App\Policies\PostPolicy.php
+
+<?php
+
+namespace App\Policies;
+
+use App\User;
+use App\Comment;
+
+class PostPolicy
+{
+    /**
+     * Determine if the given post can be updated by the user.
+     * @return  bool
+     */
+    public function update(User $user, Comment $comment)
+    {
+        return $user->id === $comment->user_id;
+    }
+}
+
++ Các bạn chú ý phương thức "create" trong policy chỉ nhận đối số đầu tiên là Model user chú không nhận thêm đối số thứ hai.
+
+public function create(User $user)
+{
+    //
+}
+
+++ Ngoài ra còn có : 
+- Policy Filters
+- Authorizing Actions Using Policy(thực hiện hành động authorize sử dụng Policy)
+
+	+ Thì chúng ta sẽ thông qua 2 phương thức can và cant được tạo sẵn trong Model User. Phương thức can nhận hành động bạn muốn cấp phép và model liên quan và ngược lại là phương thức cant.
+
+	if ($user->can('update', $comment)) {
+    	//
+	}
+   
+    + Function create trong policy không yêu cầu tham số thứ 2 là instance của model nào. Trong trường hợp này, chúng ta có thể truyền tên class vào "phương thức can". "Tên lớp sẽ được sử dụng để xác định Policy nào sẽ sử dụng khi authorize".
+
+	use App\Comment;
+
+	if ($user->can('create', Comment::class)) {
+
+	}
+
+- Via Middleware
+- Via Controller Helpers
+- Via Blade Template
+https://viblo.asia/p/tim-hieu-authorization-trong-laravel-gGJ59jYpKX2
+
+
+++ Điểm giống của Authentication và Authorization
+- Chúng đều cho phép người dùng có hoặc không thực thi một hành động trong hệ thống
+
+++ Điểm khác của Authentication và Authorization
+Authentication : check đăng nhập
+Authorization : phân quyền xem có những quyền gì sau khi đăng nhập

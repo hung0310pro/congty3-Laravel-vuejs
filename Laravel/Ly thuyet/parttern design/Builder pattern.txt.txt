@@ -1,0 +1,68 @@
++++ Builder Pattern là một design pattern thuộc nhóm khởi tạo, cho phép lập trình viên tạo ra những đối tượng phức tạp nhưng chỉ cần thông qua các câu lệnh đơn giản để tác động nên các thuộc tính của nó.
+
+++ Lợi ích : Builder pattern có lợi khi:
+- Muốn thay đổi thiết kế cho việc lồng nhau của các hàm khởi tạo.
+- Cần tạo ra một đối tượng phức tạp, một đối tượng mà thuật toán để tạo tạo lập các thuộc tính là độc lập đối với các thuộc tính khác.
+
+++ Nên sử dụng Builder Pattern khi nào?
+- Các class của bạn chứa quá nhiều hàm khởi tạo hoặc những hàm khởi tạo quá cồng kềnh và phức tạp.
+
+* ví dụ : 
+Class A {
+	public function __construct($accountNumber, $owner, $branch, $balance, $interestRate) 
+	{
+	    $this->accountNumber = $accountNumber;
+	    $this->owner = $owner;
+	    $this->branch = $branch;
+	    $this->balance = $balance;
+	    $this->interestRate = $interestRate;
+	}
+}
+- Bạn không muốn việc gán giá trị cho các tham số của hàm khởi tạo phải tuân theo một trật tự cố định nào đó, ví dụ: Thay vì phải gán giá trị tuần tự từ tham số A rồi mới đến tham số B và tham số C, bạn có thể gán giá trị cho tham số B trước rồi mới đến A và C.
+
+* nếu như ở trên thì khi khởi tạo tới lớp A thì phải truyền tham số theo thứ tự lần lượt như là $accountNumber -> $owner -> $balance....
+
+++ Trong đó:
+
+- Builder: Là thành phần định nghĩa một lớp trừu tượng (abstract class) để tạo ra một hoặc nhiều phần của đối tượng Product.
+
+- Concrete Builder: Là thành phần triển khai, cụ thể hóa của các lớp trừu tượng để tạo ra các thành phần và tập hợp các thành phần đó với nhau. thành phần này sẽ xác định và nắm giữ các thể hiện mà nó tạo ra. Đồng thời nó cũng cung cấp phương thức để trả các các thể hiện mà nó đã tạo ra trước đó.
+- Product: Là thành phần sẽ đại diện cho các đối tượng phức tạp phải tạo ra.
+- Director: Là thành phần sẽ khởi tạo đối tượng Builder (Có thể có hoặc không).
+- Client: Là thành phần sẽ sử dụng các ConcreteBuilder và Director.
+(Director,Client có thể có hoặc k).
+
++ có thể xem qua ví dụ ở  (https://vi.fitwp.com/builder-pattern/)
++ Ngoài ra có thể tham khảo ví dụ ở đây
+
+
++++ như trong ví dụ ở đây : https://toidicode.com/creational-builder-pattern-trong-php-132.html
+
+thì: 
+- Builder : BuilderInterFace(hoặc có thể là lớp trừu tượng abstract) định nghĩa các phương thức của đối tượng
+
+- Concrete Builder : TruckBuilder, CarBuilder implement BuilderInterFace (ở trong đây thường là gọi tới các hàm của Builder rồi từ đó set cho các giá trị cần tương ứng vs các phương thức được định nghĩa trong BuilderInterFace) ngoài ra là  TruckBuilder, CarBuilder các lớp trừu tượng cần đc cụ thể hóa;
+
+- Product : truck,car...
+
+- Director: Directer,
+
+muốn hiểu đoạn code thì check đoạn cuối 
+
+$car = new CarBuilder();
+$object = (new Directer())->build($car);
+var_dump($object);
+
+- ngoài ra ở đây Director có vẻ như là để chạy tới các function ở trong  Concrete Builder 1 cách hợp lý (TruckBuilder, CarBuilder)
+
+
+++ Ưu điểm
+- Builder pattern giúp người dùng tránh được việc phải viết nhiều hàm khởi tạo cho class.
+
+- Với builder pattern, giờ đây người dùng không cần phải truyền giá trị null cho các tham số mà đối tượng của họ không cần sử dụng tới.
+
+- Builder pattern giúp người dùng biết được chính xác giá trị mà họ đang gán là gì khi gọi tới phương thức setter tương ứng. Chính điều này giúp hạn chế các lỗi phát sinh do việc gán sai hoặc gán nhầm tham số như trước đây.
+
+- Builder pattern giúp kiểm soát tốt hơn quá trình xây dựng của đối tượng: chúng ta có thể thêm các đoạn code xử lý kiểm tra ràng buộc trước khi đối tượng được trả về cho phía người dùng.
+
+- Builder pattern giúp code của chúng ta trở nên dễ đọc và dễ bảo trì hơn trong tương lai.

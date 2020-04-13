@@ -1,0 +1,215 @@
++++ Sự khác biệt giữa let và var
+
+let a = 3(1);
+
+if (true) {
+    let a = 5;
+    console.log(a) // prints 5
+}
+
+console.log(a)(2) // prints 3
+
+var a = 3
+
+if (true) {
+    var a = 5
+    console.log(a) // prints 5
+}
+
+console.log(a) // prints 5
+
+- Ngoài ra nếu như mà k khai báo (1) thì (2) sẽ in ra câu thông báo lỗi là biến đó k tồn tại tức là let chỉ hoạt động trong scope if thôi. nó k global như tk var.(tk var khai báo trong if thì bên ngày vẫn gọi console.log ra đc như bt)
+- let cho cập nhật lại giá trị của biến ví dụ : 
+
+	let a = 1;
+	a = 2;
+	console.log(a) thì sẽ ra là 2
+
+- Ngoài ra let k thể đc khai báo 2 lần trong cùng 1 scope (ví dụ ở trên là 2 tk ở 2 scope khác nhau)như là : 
+
+	let a = 1;
+	let a = 2; 
+
++++ const
+- tk này cx như let chỉ đc được định nghĩa 1 lần. Tuy nhiên khác vs let thì nếu viết là : 
+	const BIEN = 1;
+	BIEN = 2;
+
+thì sẽ bị sai vì hằng không cho cập nhật lại giá trị biến như vậy (let thì đc, var cx đc)
+
+
++++ Template strings	
+	let nam = 1996;
+	var string = `đây là Lê Hùng ${nam}`; 
+	// tương đương vs  "đây là Lê Hùng" + nam;
+	console.log(string);
+
+nếu là dạng đối tượng thì sẽ là : 
+	let aa = {
+		namsinh : 1996,
+		name : "Lê Hùng"
+	}
+
+    var string1 = `đây là ${aa.name} sinh năm ${aa.namsinh}`;
+    console.log(string1);
+
++++ Sử dụng For
+
+	let array =  [
+	   "Hùng",
+	   "Tuấn",
+	   "Long",
+	   "Hoan",
+	   "Đạo"
+	];
+     
+    for(let index in array){ (3)
+       console.log(index); // in ra key của mảng
+       console.log(array[index]);  // in ra value của mảng
+    } 
+
+    for(let index of array){
+       console.log(index); // in ra value của mảng luôn
+    } 
+
+- nếu nó dạng đối tượng như :     
+	let aa = {
+		namsinh : 1996,
+		name : "Lê Hùng"
+	}
+thì chỉ sử dụng đc tk for in(3) thôi và cách in ra như tk mảng 	
+
++++ spread operator (cách cho value 1 mảng or 1 obj vào 1 mảng or 1 obj khác đoạn ...)
+
+const a = {
+    firstName: "Barry",
+    lastName: "Manilow",
+}
+
+const b = {
+    ...a,
+    lastName: "White",
+    canSing: true,	
+}
+
+console.log(a) // {firstName: "Barry", lastName: "Manilow"}
+
+console.log(b) // {firstName: "Barry", lastName: "White", canSing: true}
+
+// great for modifying objects without side effects/affecting the original
+
++++ Destructuring object (array cx vậy)
+
+	let obj = { 
+	  a1: 55,
+	  b1: 44
+	};
+
+	let { a, b } = obj;
+
+	console.log(a); // 55
+	console.log(b); // 44
+- nếu như mà ghi là 
+  let { a, b, c } = obj; thì c in ra sẽ là undefined, xong nếu gán là c = 123. thì in ra c sẽ là 123.
+- Nhưng nếu để là c = 123 và trong obj có c1 = 1996 thì lúc in ra thì c sẽ là 1996 chứ kp 123
+
++++ Rest params
+
+- bình thường, fix cứng biến truyền vào là 3 thì ở dưới chỉ đc truyền 3
+
+  function testParams (x,y,z){
+   console.log(value);
+  }
+  testParams(1,2,3);
+
+- Rest params, truyền động và thích truyền bn cx đc
+  function testParams (...value){
+   console.log(value);
+  }
+
+  testParams(1,2,3,4,7,1); thì sẽ in ra 1 mảng  ([1, 2, 3, 4, 7, 1]).
+
++++  String includes()
+	console.log('apple'.includes('pl')) // prints true
+	console.log('apple'.includes('tt')) // prints false
+
++++ String startsWith()
+
+	console.log('apple'.startsWith('ap')) // prints true
+	console.log('apple'.startsWith('bb')) // prints false
+
++++ object property assignement
+
+    const a = 2
+	const b = 5
+
+	const obj = { a, b }
+
+	// Before es6:
+	// obj = { a: a, b: b }
+
+	console.log(obj) // prints { a: 2, b: 5 }
+
++++ Object.assign() chuyển object về mảng
+	const obj1 = { a: 1 }
+	const obj2 = { b: 2 }
+
+	const obj3 = Object.assign({}, obj1, obj2)
+
+	console.log(obj3) // { a: 1, b: 2 }
+
+	Object.entries()
+	const obj = {
+	  firstName: 'Vipul',
+	  lastName: 'Rawat',
+	  age: 22,
+	  country: 'India',
+	};
+
+	const entries = Object.entries(obj);  
+	/* returns an array of [key, value] 
+	   pairs of the object passed
+	*/
+
+	console.log(entries);  
+	/* prints
+	   [
+	     ['firstName', 'Vipul'], 
+	     ['lastName', 'Rawat'], 
+	     ['age', 22], 
+	     ['country', 'India']
+	   ];
+	*/
+
++++ Destructuring Nested Objects
+	const Person = {
+	  name: "John Snow",
+	  age: 29,
+	  sex: "male",
+	  materialStatus: "single",
+	  address: {
+	    country: "Westeros",
+	    state: "The Crownlands",
+	    city: "Kings Landing",
+	    pinCode: "500014",
+	  },
+	};(1)
+
+
+	const { address : { state, pinCode, city}, name} = Person;(2)
+
+- nếu dữ liệu đang ở trang 1 mảng con thì khi định nghĩa(2) thì phải cho vào 1 mảng con khác(nhìn tk address ở mảng (1) và phải viết đúng tiên biến)
+- nếu k định nghĩa biến ở trong(1) thì sẽ bị in ra lỗi ví dụ như biến "sex"
+
+	console.log(name, state, pinCode, city) // John Snow The Crownlands 500014
+	console.log(sex) // ReferenceError	
+
++++ Class 
+http://prntscr.com/rx7mt9 (code)
+http://prntscr.com/rx7n4p (kết quả in ra)	
+
++++ Kế thừa Class
+http://prntscr.com/rx7rdh (code)
+
++++ arrow function 
+http://prntscr.com/rx7wlf (code)			

@@ -1,0 +1,42 @@
++++ Repository Pattern làm nhiệm vụ chia nhỏ logic truy cập dữ liệu (data access logic) và nối chúng với các thực thể business trong khối business logic. 
+"Giao tiếp giữa data access logic và business logic sẽ được thực hiện thông qua các interface."(nằm ở giữa data access logic và business logic). "Ngoài ra nó là nơi chứa các logic truy cập dữ liệu" business logic có thể lấy dữ liệu cần thiết mà không cần biết dữ liệu được thiết kế ra sao hoặc tương lai cấu trúc dữ liệu thay đổi như thế nào.
+
++ Tóm lại : Ý tưởng cơ bản thì Repository là cầu nối trung gian giữa Models và Controllers, đồng thời tách sự phụ thuộc của Controller vào Model.
+
++++ Một số ưu điểm của việc thực hiện này có thể chỉ ra như sau:
+- Code dễ dàng maintain.
+- Business logic và Data access logic có thể test độc lập.
+- Tránh việc duplicate code.
+- Lỗi ít hơn.
+
+
++ vào đây đọc nhé.https://viblo.asia/p/laravel-design-patterns-series-repository-pattern-part-3-ogBG2l1ZRxnL
+
++++ Lưu ý
++ Nhưng có cái lưu ý là hiện tại cách làm giống như làm cái reportModel rồi, tuy nhiên h nên cho vào 1 vài folder khác trc khi tạo file(Repositories\Eloquents...)
++ Quan trọng nữa là tạo thêm interface cho cái RepositoriesModel của mình xong từ đó RepositoriesModel implement cái interface đó rồi khai báo ở trong "app/Providers/AppServiceProvider.php"
+
+ví dụ
+
+public function register()
+    {
+        $this->app->bind(
+            'App\Repositories\Contracts\ProductRepositoryInterface',
+            'App\Repositories\Eloquents\ProductRepository'
+        );
+}
+
+++ Nhưng thường sẽ là tạo mới
+Nếu dung cách tạo ra file mới, thì phải khai báo file đó config/app.php và thêm vào providers nhé
+
+'providers' => [
+...
+    App\Providers\RepositoryServiceProvider::class,
+],
+
++ Sau đó trong controller thì hàm __construct như sau(sau đó làm như bt)
+
+public function __construct(ProductRepositoryInterface $productRepository)
+{
+    $this->productRepository = $productRepository;
+}

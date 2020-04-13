@@ -1,0 +1,26 @@
++++ Singleton Pattern
+Mục đích chính của mẫu Singleton là cung cấp một việc khởi tạo đối tượng chỉ duy nhất một lần cho dù bạn gọi lại nó bao nhiêu lần, điều này giúp tiết kiệm bộ nhớ và ngăn chặn việc tạo ra nhiều lần khởi tạo đối tượng, mẫu Singleton được sử dụng để nâng cao hiệu xuất thực thi ứng dụng.
+
+++ Ví dụ 
+class A{
+    public $ta = 'Khuong Van Ngo';
+    private static $tb;
+    private function __construct(){}
+    public static function getInstance(){
+        if(!self::$tb){
+            self::$tb = new A();
+        }
+        return self::$tb;
+    }
+}
+$s = A::getInstance(); (1)
+$s->ta = 'VanKhuong777'; (2)
+unset($s);
+$s2 = A::getInstance(); (3)
+echo $s2->ta; // vankhuong777
+
+
++ Giải thích
+(1) khi gọi tới hàm nầy thì self::$tb chưa có nên nó sẽ bị null và sẽ khởi tạo đến class A.
+(2) Sau khi khởi tạo tới class A thì nó sẽ gán lại giá trị cho $ta.
+(3) Ở bước này thì do $tb là biến static(lưu lại giá trị cuối cùng) nên nó vẫn lưu lại lần khởi tạo(1), hay có thể hiểu đơn giản là nó gọi lại (1), mà ở tk (1) này thì ta đã có $s->ta = 'VanKhuong777';(2). Thì lúc này ta đã gán giá trị $s->ta = 'VanKhuong777'; nên nó sẽ echo ra vankhuong777
