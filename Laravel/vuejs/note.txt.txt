@@ -43,6 +43,12 @@ var vujsInstance = new Vue({
 - Nếu là attribute(href,id,style...) thì sẽ là v-bind:href="url"
 - nếu bt thì sẽ là {{title}}
 
++++ computed thường được dùng khi mà mình cần check các biến trong data thay đổi thì các hàm trong computed sẽ được chạy, ngoài ra computed có thể truyền từ "component cha" sang component "con" như tk (1) ở dưới;
+
+ <componentListUser
+            v-bind:listUsersApp="listUsersApp"(1)
+            v-on:nameDeleteUserApp="DeleteUserApp"
+ />
 
 +++ bt khi ấn submit form thì nó sẽ reload trang sang 1 trang php
 v-on:submit.prevent="onSubmitForm($event)" cái này kiểu bỏ chuyển trang nếu submit form,
@@ -60,6 +66,7 @@ Ngoài ra còn rất nhiều cái hay trong này liên quan checkbox, select opt
 https://vi.vuejs.org/v2/guide/forms.html
 
 +++ Tham khảo class và style của vujs(http://prntscr.com/rxml8l).
+- 1 vài điều kiện check trong class(http://prntscr.com/ryzwzr ở trong đây thì nếu mà nó là winner thì nó sẽ k có class active và ngược lại(thay vào đó là class winner) )
 
 +++ 12 Render Template dùng biểu thức điều kiện
 v-if, v-else if...
@@ -69,7 +76,40 @@ v-if, v-else if...
 +++ v-for xem ví dụ là hiểu
 
 +++ Lưu ý quan trọng về Array và Object trong VueJs tham khảo tại đây (https://vi.vuejs.org/v2/guide/list.html) (Importain)
+- Do một số hạn chế của JavaScript, Vue không thể phát hiện thấy những thay đổi sau đây đối với mảng:
 
+Khi bạn gán một phần tử trực tiếp vào một index, ví dụ vm.items[index] = newValue
+Khi bạn thay đổi kích thước của mảng, ví dụ vm.items.length = newLength
+Ví dụ:
+
+var vm = new Vue({
+  data: {
+    items: ['a', 'b', 'c']
+  }
+})
+vm.items[1] = 'x' // KHÔNG reactive
+vm.items.length = 2 // cũng KHÔNG reactive
+
+- Do vậy để xử lí thì sẽ dùng hàm của vuejs như sau : (1)
+// Vue.set
+Vue.set(vm.items, indexOfItem, newValue)
+-- trong đó
+    + vm.items là mảng,
+    + indexOfItem là key(1 ở trong cái vm.items[1])
+    + newValue là giá trị mới
+
+// Array.prototype.splice
+vm.items.splice(indexOfItem, 1, newValue)
+
+// nếu dùng vs method thì dùng là
+vm.$set(vm.userProfile, 'age', 800)
+
+--- giải thích về "KHÔNG reactive": bởi vì Vue k phát hiện được thay đổi khi mình thay đổi trực tiếp vào giá trị của array, "mình phải thay đổi địa chỉ của array đó". Vì bản chất của vue nó sẽ kiểm tra xem địa chỉ của ô nhớ có thay đổi không.
+
+ ví dụ có arrA = [1,2], khi đó arrB = arrA thì 2 tk này sẽ có chung 1 địa chỉ bộ nhớ(k tin thử đổi arrB thành [2,3]) thì tk arrA cx bị thay đổi như vậy là [2,3].
+
+- Từ đó ta sẽ sử dụng (1), or mình tạo 1 mảng mới đó là C, rồi gán giá trị thay đổi vào mảng mới C. sau đó ms gán lại giá trị của mảng arrA = C, thì khi này vue nó ms check đc, vì khi đó arrA sẽ thay đổi địa chỉ mới là địa chỉ của tk C.
+- xem clip để hiểu rõ hơn (https://www.youtube.com/watch?v=Ke-iMGeh2sU&list=PLv6GftO355AtDjStqeyXvhA1oRLuhvJWf&index=43)
 
 ******************************* vuejsCLI : ứng dụng đơn trang(single page application) 1 trang web nó sẽ chưa nhiều thành phần(header,footer,body) thì tương ứng vs mỗi tk này thì là 1 file html,css,js riêng nên vuejs đó cho mình tk này để dùng.
 +++ cách cài đặt :
@@ -89,9 +129,19 @@ $ npm run dev
 +++ import các component cho vào các tk cha (App.vue)
 /* 1 component thì có nhiều component con
 * App chứa (header, footer,listuser..., đây là chỗ khai báo import nó (1,2,3))
+- Đây cũng là hình thức nhúng các dữ liệu file con vào file cha
 
 +++ props
 - Truyền 1 biến đã được định nghĩa trong file cha rồi ném vào file con(App -> ComponentHeader)
+   props: {
+   titleHeaderApp:{
+       default: 'Header Vuejs',
+       type: String
+   }
+  },
+
+-- trong đó cái type có thể để nhiều cái ví dụ (type: [string,boolen...])
+
 
 +++ (Quan trọng) Thay đổi giá trị biến theo sự kiện (file App.vue và ComponentHeader.vue trong vuejsCLI):
 thay đổi theo sự kiện :
