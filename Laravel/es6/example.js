@@ -62,7 +62,6 @@ const Person = {
 };
 
 const { address : { state, pinCode, city}, name} = Person;
-
 console.log(name, state, pinCode, city) // John Snow The Crownlands 500014
 //console.log(sex) // Reference Error
 

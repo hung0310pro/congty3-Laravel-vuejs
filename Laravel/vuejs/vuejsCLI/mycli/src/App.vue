@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <button v-on:click="titleApp = 'Thay đổi title header từ tk cha App.vue 123'">Thay đổi title header từ tk cha App.vue</button> <!-- thay đổi titleApp từ tk App.vue cho tk componentHeader -->
+
+    <button @click="changeMessage">Change Message</button>
+
     <!-- props : truyền 1 biến đã được định nghĩa trong App(data) truyền sang tk ComponentHeader -->
     <componentHeader
             v-bind:titleHeaderApp="titleApp"
@@ -49,8 +52,12 @@ export default {
           {id: "100",name: "Hùng",tuoi: 24},
           {id: "101",name: "Long Phiên",tuoi: 24},
           {id: "102",name: "Đạt",tuoi: 24},
-      ]
+      ],
 
+      message: {
+        type: 'greeting',
+        text: 'How are you?'
+      }
     }
   },
   // (2)
@@ -62,6 +69,8 @@ export default {
   },
 
   methods: {
+
+
       changTitleEvent(data){
          /* this.titleApp = "Đây là title được thay đổi fix cứng bên cha";*/
           this.titleApp = data.title;
@@ -83,7 +92,20 @@ export default {
          this.$refs.RefFileDemo.click();
          /* $("#fileupload").trigger('click');*/
 
+      },
+
+      changeMessage() {
+          this.message.text = 'this is new message';
       }
+  },
+
+  watch: {
+    message: {
+        handler: function () {
+            console.log('something changed')
+        },
+        deep: true
+    }
   }
 }
 </script>

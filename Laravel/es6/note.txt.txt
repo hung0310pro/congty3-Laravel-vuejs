@@ -18,7 +18,7 @@ if (true) {
 
 console.log(a) // prints 5
 
-- Ngoài ra nếu như mà k khai báo (1) thì (2) sẽ in ra câu thông báo lỗi là biến đó k tồn tại tức là let chỉ hoạt động trong scope if thôi. nó k global như tk var.(tk var khai báo trong if thì bên ngày vẫn gọi console.log ra đc như bt)
+- Ngoài ra nếu như mà k khai báo (1) thì (2) sẽ in ra câu thông báo lỗi là biến đó k tồn tại tức là let chỉ hoạt động trong scope if thôi. nó k global như tk var.(tk var khai báo trong if thì bên này vẫn gọi console.log ra đc như bt)
 - let cho cập nhật lại giá trị của biến ví dụ : 
 
 	let a = 1;
@@ -158,7 +158,7 @@ console.log(b) // {firstName: "Barry", lastName: "White", canSing: true}
 
 	console.log(obj3) // { a: 1, b: 2 }
 
-	Object.entries()
+	Object.entries() //
 	const obj = {
 	  firstName: 'Vipul',
 	  lastName: 'Rawat',

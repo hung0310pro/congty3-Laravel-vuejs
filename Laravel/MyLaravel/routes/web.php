@@ -69,7 +69,7 @@ Route::group(['prefix' => 'Mygroup'],function(){
 	});
 });
 
-// php artisan make:controller namecontroller 
+// php artisan make:controller namecontroller
 // Call 1 controller, bên vế thứ 2 là name controller vs name function.
 Route::get('testfirstcontroller','MyController@TestMyFunction');
 
@@ -107,7 +107,7 @@ Route::get('truyenparam/{param}','MyController@TestFunction9');
 
 /*View::share('title_allview','Học lập trình laravel');*/ // chỉ cần echo cái biến $title_allview thì
 // ở trang view nào thì sẽ lấy đc giá trị của nó.
-// 
+//
 // nếu chỉ muốn share biến cho 1 vài trang cần truyền thì làm như sau
 /*View::composer('b22',function($view){
   return $view->with('bien1',"Đây là biến 1");
@@ -153,7 +153,7 @@ Route::get('createtable1',function(){
 
 //+ Tạo bảng khóa phụ liên kết với khóa chính của bảng sản phẩm
 //- mặc định số lượng ban đầu  = 0
-//- cho nó phải giống như khóa chính của bảng SanPham $table->integer('idsanpham')->unsigned(); 
+//- cho nó phải giống như khóa chính của bảng SanPham $table->integer('idsanpham')->unsigned();
 //- khóa phụ idsanpham liên kết tới khóa chính của bảng SanPham $table->integer('idsanpham')->references->('id')->on('SanPham');
 
 /*$table->unique(['user_id','role_id']);
@@ -164,9 +164,9 @@ Route::get('createtable2',function(){
 		$table->increments('id');
 		$table->string('namesanpham2',200);
 		$table->float('gia');
-		$table->integer('soluong')->default(0);  
-		$table->integer('idsanpham')->unsigned(); 
-		$table->foreign('idsanpham')->references('id')->on('SanPham'); 
+		$table->integer('soluong')->default(0);
+		$table->integer('idsanpham')->unsigned();
+		$table->foreign('idsanpham')->references('id')->on('SanPham');
 	});
 	echo "Tạo bảng thành công";
 });
@@ -213,7 +213,7 @@ Route::get('query/sanphammigrate',function(){
 	echo "<pre>";
 	print_r($data);
 	echo "</pre>";
-}); 
+});
 
 Route::get('getsanphamid',function(){
 	$data = DB::table('sanphammigrate')->where('id',1)->get();
@@ -238,7 +238,7 @@ Route::get('getsanphambetween',function(){
 });
 
 Route::get('getsanphamlimit',function(){
-	$data = DB::table('sanphammigrate')->skip(0)->take(2)->get(); 
+	$data = DB::table('sanphammigrate')->skip(0)->take(2)->get();
 	/*(0,2)*/
 	echo "<pre>";
 	print_r($data);
@@ -266,12 +266,22 @@ Route::get('select_tanggiam', function(){
 	echo "</pre>";
 });
 
+// Nếu bạn muốn lấy một Collection chứa các giá trị của một cột
 Route::get('select_test', function(){
 	$data = DB::table('sanphammigrate')->pluck('nameproduct')->all();
 	echo "<pre>";
 	print_r($data);
 	echo "</pre>";
 });
+
+/*Array
+(
+    [0] => product1
+    [1] => product2
+    [2] => product3
+    [3] => product4
+    [4] => product5
+)*/
 
 Route::get('query/count', function(){
 	$data = DB::table('sanphammigrate')->where('nameproduct','product2')->count();
@@ -405,8 +415,8 @@ Route::get('model/modelCar',function(){
         (
             [id] => 1
             [namecolor] => red
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [pivot] => Array
                 (
                     [car_id] => 1
@@ -419,8 +429,8 @@ Route::get('model/modelCar',function(){
         (
             [id] => 2
             [namecolor] => black
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [pivot] => Array
                 (
                     [car_id] => 1
@@ -444,8 +454,8 @@ Route::get('model/modelColortestjoin',function(){
         (
             [id] => 1
             [name] => car1
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [car_id] => 1
             [color_id] => 1
             [price] => 300
@@ -455,8 +465,8 @@ Route::get('model/modelColortestjoin',function(){
         (
             [id] => 3
             [name] => car3
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [car_id] => 3
             [color_id] => 1
             [price] => 100
@@ -466,8 +476,8 @@ Route::get('model/modelColortestjoin',function(){
         (
             [id] => 2
             [name] => car2
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [car_id] => 2
             [color_id] => 1
             [price] => 200
@@ -490,8 +500,8 @@ Route::get('model/modelColor',function(){
             [id] => 1
             [name] => car1
             [price] => 300
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [pivot] => Array
                 (
                     [color_id] => 1
@@ -505,8 +515,8 @@ Route::get('model/modelColor',function(){
             [id] => 3
             [name] => car3
             [price] => 100
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [pivot] => Array
                 (
                     [color_id] => 1
@@ -520,8 +530,8 @@ Route::get('model/modelColor',function(){
             [id] => 2
             [name] => car2
             [price] => 200
-            [created_at] => 
-            [updated_at] => 
+            [created_at] =>
+            [updated_at] =>
             [pivot] => Array
                 (
                     [color_id] => 1
@@ -757,9 +767,9 @@ echo $posts[0]->pending_comments_count;
 
 /*class Book extends Model
 {
-    
+
     Lấy thông tin tác giả, người viết cuốn sách này
-     
+
     public function author()
     {
         return $this->belongsTo('App\Author');
@@ -806,7 +816,7 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)*/
 // con tới cha
 Route::get('model/modelwithEager',function(){
 	$data = App\ModelLoaitin::with('LoaiTinHasOneTheLoai')->get();
-	
+
 	foreach ($data as $value) {
 	 	echo "<pre>";
 		print_r($value->LoaiTinHasOneTheLoai->ten);
@@ -817,7 +827,7 @@ Route::get('model/modelwithEager',function(){
 // cha tới con
 Route::get('model/modelwithEager1',function(){
 	$data = App\ModelTheloai::with('theloaihasManyLoaitin')->get();
-	
+
 	foreach ($data as $value) {
 	 	foreach ($value->theloaihasManyLoaitin as $val) {
  			 	echo "<pre>";
@@ -830,7 +840,7 @@ Route::get('model/modelwithEager1',function(){
 
 Route::get('model/modelloadEager',function(){
 	$data = App\ModelLoaitin::all()->load('LoaiTinHasOneTheLoai');
-	
+
 	foreach ($data as $value) {
 	 	echo "<pre>";
 		print_r($value->LoaiTinHasOneTheLoai);
@@ -842,12 +852,8 @@ Route::get('model/modelloadEager',function(){
 // *** 1 vài truy vấn hay : https://viblo.asia/p/mot-so-truy-van-huu-ich-trong-laravel-3P0lPA185ox
 // có cả condition, where...
 
-// *** tối ưu hóa orm để giảm mức tiêu thụ bộ nhớ 
+// *** tối ưu hóa orm để giảm mức tiêu thụ bộ nhớ
 // https://viblo.asia/p/toi-uu-hoa-cac-truy-van-eloquent-de-giam-muc-tieu-thu-bo-nho-4P856Pr1ZY3
-
-
-
-
 
 /*$post = Post::findOrFail($id, ['id', 'title', 'content']);
 Tìm kiếm một bài post sử dụng where
@@ -958,3 +964,189 @@ Route::resource('products', 'ProductController'); // function show http://localh
         factory(App\Product::class, 3)->create();*/
 
 // https://viblo.asia/p/seeder-va-model-factory-trong-laravel-ban-da-thu-chua-ByEZkvoAKQ0
+
+
+// ++++ ôn về query builder vs orm:
+// +++ query builder
+
+Route::get('getbuilderfirsttest',function(){
+	$data = DB::table('users')->select('name','email')->orderby('id','desc')->get()->first();
+	echo "<pre>";
+	print_r($data);
+	echo "</pre>";
+});
+//-- Dùng first lấy ra 1 phần tử duy nhất :  select `name`, `email` from `users` order by `id` desc
+
+
+
+/*
+-- Dùng DB::raw('count(*)
+
+$data = DB::table('users')->select(DB::raw('count(*) as usr_count'))->get();
+select count(*) as usr_count from `users`
+*/
+
+
+/*
+$query = DB::table('users')->select('name');
+$users = $query->addSelect('email')->get();
+
+select `name`, `email` from `users`
+*/
+
+/*
+-- Join lồng
+$users = DB::table('users')
+        ->join('comment', function ($join) {
+            $join->on('users.id', '=', 'comment.id_users');
+        })
+        ->get();
+
+select * from `users` inner join `comment` on `users`.`id` = `comment`.`id_users`
+
+*/
+
+/*
+-- Sử dụng union
+
+$comment = DB::table('comment')->select('comment');
+
+$users = DB::table('users')
+            ->select('name')
+            ->union($comment)
+            ->get();
+
+(select `name` from `users`) union (select `comment` from `comment`)
+
+*/
+
+/*
+
+-- Truyền vào vs nhiều điều kiện(giống  DB::table('sanphammigrate')->where('id',1)->where('id','product1')->get();)
+
+$users = DB::table('users')->where([
+   ['status', '=', '1'],
+   ['subscribed', '<>', '1'],
+])->get();
+
+
+*/
+
+
+/*
+--  where name = 'John' or (votes > 100 and title <> 'Admin')
+DB::table('users')
+        ->where('name', '=', 'John')
+        ->orWhere(function ($query) {
+            $query->where('votes', '>', 100)
+                  ->where('title', '<>', 'Admin');
+        })
+        ->get();
+
+select * from users where name = 'John' or (votes > 100 and title <> 'Admin')
+
+*/
+
+/*
+-- latest là lấy ra tk tạo tài khoảng muộn nhất và oldest ngược lại
+$users = DB::table('users')
+                ->latest()
+                ->first();
+
+select * from `users` order by `created_at` desc limit 1
+
+*/
+
+/*
+--- groupBy / having / havingRaw
+
+$users = DB::table('users')
+                ->groupBy('account_id')
+                ->having('account_id', '>', 100)
+                ->get();
+
+$users = DB::table('orders')
+                ->select('department', DB::raw('SUM(price) as total_sales'))
+                ->groupBy('department')
+                ->havingRaw('SUM(price) > 2500')
+                ->get();
+*/
+
+/*
+---whereExists
+
+select * from `users` where exists (select * from `comment` where comment.id_users = users.id)
+
+$users = DB::table('users')
+          ->whereExists(function ($query) {
+              $query->select('*')
+                    ->from('comment')
+                    ->whereRaw('comment.id_users = users.id');
+          })
+          ->get();
+
+
+-- Conditional Clauses(query builder)
+
+$sortBy là 1 biến, nếu null thi order by name, còn  k thì order by theo $sortBy
+
+$sortBy = null;
+
+$users = DB::table('users')
+                ->when($sortBy, function ($query) use ($sortBy) {
+                    return $query->orderBy($sortBy);
+                }, function ($query) {
+                    return $query->orderBy('name');
+                })
+                ->get();
+
+*/
+
+/*
+
++++ có nhiều hàm rất hay tác động đến kết quả trả về
+
+https://viblo.asia/p/nhung-method-thong-dung-cua-collection-trong-laravel-ban-da-su-dung-het-chua-07LKXOzp5V4
+
+*/
+
+// +++ orm
+
+/*
+-- condition orm
+	Route::get('getbuilderfirsttest',function(){
+	$condition = false;
+	$level = 1;
+	// $condition = false;
+	$users = App\User::when($condition, function ($query) use ($level) {
+	    return $query->where('id', 1)->orderBy('name');
+	}, function ($query) {
+	    return $query->orderBy('id');
+	})
+	->get();
+		echo "<pre>";
+		print_r($users);
+		echo "</pre>";
+	});
+
+*/
+
+/*
+-- relation orm vs 2 loại khác nhau
+$users  = App\User::has('comment')->get();
+select * from `users` where exists (select * from `comment` where `users`.`id` = `comment`.`id_users`)
+
+$users  = App\User::has('comment','>=','3')->get();
+select * from `users` where (select count(*) from `comment` where `users`.`id` = `comment`.`id_users`) >= 3
+
+-- nên lấy ra các field cần hơn là lấy hết các field bao gồm các field k cần thiết
+
+$users  = App\User::with([
+'comment' => function ($query) {
+    $query->select('id', 'comment', 'id_users');
+}
+])->get(['id', 'name', 'email']);
+
+select `id`, `name`, `email` from `users`
+select `id`, `comment`, `id_users` from `comment` where `comment`.`id_users` in (1, 2, 18, 19, 20, 21, 23)
+*/

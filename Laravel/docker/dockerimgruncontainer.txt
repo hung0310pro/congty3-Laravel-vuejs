@@ -1,0 +1,53 @@
+https://viblo.asia/p/docker-nhung-kien-thuc-co-ban-phan-1-bJzKmM1kK9N
+https://viblo.asia/p/docker-nhung-kien-thuc-co-ban-phan-2-V3m5WyEvZO7
+https://viblo.asia/p/docker-nhung-kien-thuc-co-ban-phan-3-4dbZNoovlYM
+
++++ Docker Images
+- Liệt kê images : docker images(http://prntscr.com/s74kae, tag là phiên bản của nó)
+- Muốn search 1 image (trên docker hub): docker search ubutu(ví dụ này search vs tk ubutu để check các phiên bản của nó)
+- Pull 1 ubutu thì : docker pull ubutu:16.4(version, nếu k gõ gì mặc định nó sẽ lấy tk mới nhất).
+- Xóa 1 image : docker rm Id(http://prntscr.com/s74oto, như này thì  chỉ có 1 tk có đầu id là af nên khi gõ nt thì nó sẽ tự hiểu, ngoài ra nếu có nhiều tk đầu là af thì khi gõ nt nó sẽ xóa "Những tk có đầu là af").
+- Chạy 1 image thì phải tạo 1 container từ image đó : (http://prntscr.com/s74q3a, chạy image là ubutu, http://prntscr.com/s74txz).
+
+** chú ý 2 : docker run -it --name NameContainer imagetuongung : mặc định mà tạo 1 container.
+
+- Kiểm tra "Container đang chạy" : docker ps(http://prntscr.com/s74quf)
+- Dừng container đang chạy : exit (http://prntscr.com/s74rdm)
+- Check list container đang và k chạy : docker ps -a
+- Chạy lại các container "Đã chạy và bị dừng trc đó" : docker start(docker start id vs id là docker muốn chạy lẻ)
+- Muốn trở lại terminal của container đang chạy : docker attach id(id của container đó)
+- Trong trường hợp "Muốn thoát khỏi terminal tuy nhiên container vẫn chạy" : ctrl + P + Q
+- Khi đang đứng ngoài terminal của container thì muốn nó dừng : docker stop id(có thể là nhiều)
+- Muốn xóa container : docker rm id.
+- Muốn xóa container đang chạy : docker rm -f id.
+- Muốn thao tác tới 1 container khi ở bên ngoài container đó : docker exec UI(ở đây ui là name của container) ls(liệt kê các file có trong container) (http://prntscr.com/s74xnw)
+- Commit 1 container thành image : http://prntscr.com/s752c7
+- Muốn lưu 1 image thành docker file : http://prntscr.com/s755bb (1)
+- Muốn lưu 1 file (đã convert ở (1)) thành image : http://prntscr.com/s757nk.
+
++++ D04 - Chia sẻ dữ liệu trong Docker, tạo và quản lý ổ đĩa docker volume(https://www.youtube.com/watch?v=DSP2-ip38Zw&list=PLwJr0JSP7i8At14UIC-JR4r73G4hQ1CXO&index=4)
++ Volume trong Docker được dùng để chia sẻ dữ liệu cho container.
+- Muốn chia sẻ dữ liệu của 1 file trên máy mình cho "container" : docker run -it -v pathHost:pathContainer imageId (http://prntscr.com/s78koq, http://prntscr.com/s78pk1)
+- Chia sẻ dữ liệu của các "Container vs nhau" : (http://prntscr.com/s78tpw)
+- Muốn chia sẻ dữ liệu của 1 file trên máy mình cho "ổ đĩa" : (http://prntscr.com/s794f5,http://prntscr.com/s7951q)
+- Muốn chia sẻ dữ liệu từ "1 ổ đĩa" cho "1 container" (ngoài ra cx có chia sẻ dữ liệu 1 container cho ổ đĩa xem trong clip, và khi xóa container đi thì các dữ liệu cx k bị mất): (http://prntscr.com/s7999t,http://prntscr.com/s79a7x)
+
+++ Ta dùng Docker Volume khi nào?
+Sử dụng volume để gắn (mount) một thư mục nào đó trong host với container.
+Sử dụng volume để chia sẻ dữ liệu giữa host và container
+Sử dụng volume để chia sẽ dữ liệu giữa các container
+Backup và Restore volume.
+
++++ D05 - Mạng | Networking trong Docker, tạo và quản lý network trong container Docker
+(https://www.youtube.com/watch?v=k1SwXOxvMdE&list=PLwJr0JSP7i8At14UIC-JR4r73G4hQ1CXO&index=5)
++ Docker network dùng để gắn địa chỉ ip cho các container thông qua một virtual bridge.
+- docker run -it --rm busybox : tạo ra 1 container bởi image có name là busybox và --rm có nghĩa là sau khi container chạy xong thì xóa container đó luôn.
+- docker network ls : kiểm tra các loại mạng trong docker, mặc định có 3 loại mạng, trong đó khi tạo 1 container mà nếu k chọn mạng cho nó thì nó sẽ tự động kết nối tới "mạng brigde".
+- docker network inspect brigde : xem thông tin về mạng brigde, trong đó có thể check đc có bn container đang liên kết đến nó.(img1)
+- docker inspect namecontainer : xem chi tiết về container và cx có thể xem nó đang kết nối tới network nào
+** chú ý 1 :  khi n+1 container cùng kết nối vs 1 network thì nó cx sẽ cũng liên kết được mạng với nhau(ping được cho nhau).
+** chú ý 2 : docker run -it --name NameContainer imagetuongung : mặc định mà tạo 1 container như này thì nó sẽ liên kết vs network bridge có sẵn.
+** chú ý 3 : docker run -it --name NameContainer --network NameNetwork imagetuongung : thì container được tạo sẽ liên kết tới network mình muốn.
+- docker network connect NameNetwork Namecontainer(or id) : tk này giúp 1 network bất kì có thể connect tới 1 tk container đã có sẵn.
+
++++ ngoài ra còn ở trong skype.

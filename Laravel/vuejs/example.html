@@ -22,7 +22,7 @@
 	</style>
 </head>
 <body>
-	đây là vujs
+    <h1>đây là vujs</h1>
 	<div id="app">
         {{ true ? 'YES' : 'NO' }} <!-- viết if else  -->
 
@@ -40,9 +40,9 @@
 		<div>
 			<form action="test.php" v-on:submit.prevent="onSubmitForm($event)">
 				<label>Email : </label>
-				<input type="text" name="email">
+				<input type="text" name="email" id="email">
 				<label>Name : </label>
-				<input type="text" name="name">
+				<input type="text" name="name" id="name">
 				<button type="submit">Đăng Nhập</button>
 			</form>
 		</div> 

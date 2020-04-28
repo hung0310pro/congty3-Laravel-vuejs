@@ -1,0 +1,5 @@
+php artisan make:model People -mf
+php artisan make:model Product -crmf
+php artisan make:model Comment -mf
+ở 3 câu lệnh trên thì các option có ý nghĩa lần lượt là (cr) là dùng để tạo resource controller, 
+(m) để tạo migration và (f) để tạo factory. Tất cả trong 1 câu lệnh, rất tiện đúng không các bác. Nội dung của migration như sau:

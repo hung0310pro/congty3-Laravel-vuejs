@@ -1,3 +1,5 @@
++++ Đọc thêm : https://viblo.asia/s/hoc-vuejs-va-laravel-tu-can-ban-den-nang-cao-z45bxjq6ZxY/
+
 +++ 1 số cái hay được chèn vào thẻ
 
 - <h1>{{ title }}</h1> lấy giá trị 1 biến trong vuejs được khai báo trong chỗ data, hoặc đối vs trường hợp là
@@ -9,7 +11,7 @@
 quan tới attribute cho các thẻ (url ở trên là 1 biến đã đc khai báo trong data http://prntscr.com/ryieqr).
 Ngoài ra còn đc dùng cho truyền biến sang component(vuejsCLI)
 
-- v-on thì dùng cho các sự kiện cho các hàm như là : click,keyup...(thao tác được vs các biến), hoặc đôi khi sẽ là tạo name cho các "EVENT"(App.vue trong vuejs.CLI)
+- v-on or @click thì dùng cho các sự kiện cho các hàm như là : click,keyup...(thao tác được vs các biến), hoặc đôi khi sẽ là tạo name cho các "EVENT"(App.vue trong vuejs.CLI)
 
 - v-if, v-else if.. dùng để check các điều kiện (thao tác được vs các biến or methods, computed).
 
@@ -50,6 +52,16 @@ var vujsInstance = new Vue({
             v-on:nameDeleteUserApp="DeleteUserApp"
  />
 
+ -- sự khác nhau của computed vs methods
+- Khi gọi computed ta không được thêm cặp dấu () đằng sau, điều đó tức là computed cũng không thể nhận tham số đầu vào như methods.
+
+- Vì không nhận tham số đầu vào nên computed chỉ nên dùng với các dữ liệu có sẵn trong data của component.
+
+- computed sẽ tính toán lại "MỖI KHI các biến phụ thuộc trong nó thay đổi", còn methods "sẽ được TÍNH TOÁN lại bất kì khi nào nó ĐƯỢC GỌI", nên nếu biết tận dụng computed để tính toán các dữ liệu có sẵn thì sẽ cải thiện được performance app của các bạn. Điều tuyệt vời của computed là nó sẽ được cached nên giả sử bạn có 1 computed với hàng loạt tính toán, lặp trong đó, thì nếu các các biến phụ thuộc không thay đổi thì khi sử dụng nó sẽ chỉ mất thời gian tính 1 lần, những lần sau kết quả sẽ được sử dụng lại từ lần trước.
+
+
++++ watcher : để có thể theo dõi sự biến đổi của dữ liệu(cx giống computed nhưng tổng quát hơn), từ đó áp dụng vào công việc thực tế của chính mình.(https://viblo.asia/p/bai-6-su-dung-watcher-trong-vuejs-YWOZr00P5Q0)
+
 +++ bt khi ấn submit form thì nó sẽ reload trang sang 1 trang php
 v-on:submit.prevent="onSubmitForm($event)" cái này kiểu bỏ chuyển trang nếu submit form,
 cái này giống cái e.preventDefault(); của js
@@ -75,8 +87,22 @@ v-if, v-else if...
 
 +++ v-for xem ví dụ là hiểu
 
++++ Scoped CSS trong VueJS
+- nếu bị style của 1 file css nào đè vào file component của mình thì sẽ viết như ở dưới đây thì nó sẽ nhận style
+ở trong cái comppnent của mình,
+    <style scoped>
+    //your CSS
+    </style>
+- Tuy nhiên đôi khi sẽ bị component cha đè vào css của component con thì ta sẽ dùng(tuy nhiên để đơn giản thì đổi name class và dùng cái scoped ở trên lại hay hơn)
+
+    <style scoped module>
+    .welcome_text {
+        color: red;
+    }
+    </style>
+
 +++ Lưu ý quan trọng về Array và Object trong VueJs tham khảo tại đây (https://vi.vuejs.org/v2/guide/list.html) (Importain)
-- Do một số hạn chế của JavaScript, Vue không thể phát hiện thấy những thay đổi sau đây đối với mảng:
+- Do một số hạn chế của JavaScript, Vue không thể phát hiện thấy những thay đổi sau đây đối với "MẢNG", "OBJ thì bình thường":
 
 Khi bạn gán một phần tử trực tiếp vào một index, ví dụ vm.items[index] = newValue
 Khi bạn thay đổi kích thước của mảng, ví dụ vm.items.length = newLength
@@ -110,6 +136,10 @@ vm.$set(vm.userProfile, 'age', 800)
 
 - Từ đó ta sẽ sử dụng (1), or mình tạo 1 mảng mới đó là C, rồi gán giá trị thay đổi vào mảng mới C. sau đó ms gán lại giá trị của mảng arrA = C, thì khi này vue nó ms check đc, vì khi đó arrA sẽ thay đổi địa chỉ mới là địa chỉ của tk C.
 - xem clip để hiểu rõ hơn (https://www.youtube.com/watch?v=Ke-iMGeh2sU&list=PLv6GftO355AtDjStqeyXvhA1oRLuhvJWf&index=43)
+
+- this.$forceUpdate() tk này cx có tác dụng re-render lại DOM(tuy nhiên rất hạn chế dùng nhé
+https://viblo.asia/p/bai-11-cach-su-dung-forceupdate-trong-vuejs-Qbq5Q1v45D8
+)
 
 ******************************* vuejsCLI : ứng dụng đơn trang(single page application) 1 trang web nó sẽ chưa nhiều thành phần(header,footer,body) thì tương ứng vs mỗi tk này thì là 1 file html,css,js riêng nên vuejs đó cho mình tk này để dùng.
 +++ cách cài đặt :
