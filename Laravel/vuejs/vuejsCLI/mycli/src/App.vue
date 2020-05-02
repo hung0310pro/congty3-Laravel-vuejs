@@ -9,6 +9,7 @@
             v-bind:titleHeaderApp="titleApp"
             v-on:nameTitleEvent="changTitleEvent"
     />  <!-- (3) truyền vào 1 attribute, truyền biến sang component là header, sau đó tạo 1 cái props trong tk con -->
+      <!-- dữ liệu đc truyền sang bên kia,dữ liệu bên này,sự kiên gọi bên kia,function xử lí bên này -->
 
     <img src="./assets/logo.png">
     <componentListUser

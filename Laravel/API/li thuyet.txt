@@ -1,6 +1,14 @@
-Get : là phương thức tìm kiếm thông tin, lấy dữ liệu từ server mà k cần gửi dữ liệu gì lên ở tk body
-Post : thường dùng để tạo 1 cái gì đó kèm theo dữ liệu mình tạo ra để gửi lên, phía server sẽ lấy dữ liệu đc gửi lên.(tạo data ví dụ như là tạo user mới)
-Put : dùng để update 1 dữ liệu gì đó.
+++ Các tiêu chuẩn thực hiện quản lí resource thì gọi là Web API hoặc Http API, Và RESTful là một trong các web API được sử dụng phổ biến ngày nay.
+++ RESTful API là một tiêu chuẩn dùng trong việc thết kế các thiết kế API cho các ứng dụng web để quản lý các resource. 
+RESTful là một trong những kiểu thiết kế API được sử dụng phổ biến nhất ngày nay.
+++ Trọng tâm của REST quy định cách sử dụng các HTTP method (như GET, POST, PUT, DELETE...) và cách định dạng các URL cho ứng dụng web để quản các resource.
+++ Khác nhau giữa REST và RESTfull : REST là viết tắt của cụm từ Representational State Transfer và các ứng dụng sử dụng kiểu thiết kế REST thì được gọi là RESTful 
+(-ful là tiếp vị ngữ giống như beauty và beautiful). Tất nhiên bạn cũng có thể sử dụng thuật ngữ REST thay cho RESTful và ngược lại.
+++  Hoặc đọc thêm ở đây : http://prntscr.com/s838sy
+
+- Get : là phương thức tìm kiếm thông tin, lấy dữ liệu từ server mà k cần gửi dữ liệu gì lên ở tk body
+- Post : thường dùng để tạo 1 cái gì đó kèm theo dữ liệu mình tạo ra để gửi lên, phía server sẽ lấy dữ liệu đc gửi lên.(tạo data ví dụ như là tạo user mới)
+- Put : dùng để update 1 dữ liệu gì đó.
 
 ++ Status code
 - Khi chúng ta request một API nào đó thường thì sẽ có vài status code để nhận biết sau:

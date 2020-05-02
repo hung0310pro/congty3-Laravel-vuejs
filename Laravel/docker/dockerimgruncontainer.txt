@@ -24,6 +24,7 @@ https://viblo.asia/p/docker-nhung-kien-thuc-co-ban-phan-3-4dbZNoovlYM
 - Commit 1 container thành image : http://prntscr.com/s752c7
 - Muốn lưu 1 image thành docker file : http://prntscr.com/s755bb (1)
 - Muốn lưu 1 file (đã convert ở (1)) thành image : http://prntscr.com/s757nk.
+- docker exec -it NameContainer bash(http://prntscr.com/s7v3d0) : truy cập vào các file của container, và khi trong file host có tạo thêm file thì nó cx sẽ tự động có trong container.  
 
 +++ D04 - Chia sẻ dữ liệu trong Docker, tạo và quản lý ổ đĩa docker volume(https://www.youtube.com/watch?v=DSP2-ip38Zw&list=PLwJr0JSP7i8At14UIC-JR4r73G4hQ1CXO&index=4)
 + Volume trong Docker được dùng để chia sẻ dữ liệu cho container.
