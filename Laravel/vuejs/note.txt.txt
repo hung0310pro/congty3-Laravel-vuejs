@@ -60,7 +60,7 @@ var vujsInstance = new Vue({
 - computed sẽ tính toán lại "MỖI KHI các biến phụ thuộc trong nó thay đổi", còn methods "sẽ được TÍNH TOÁN lại bất kì khi nào nó ĐƯỢC GỌI", nên nếu biết tận dụng computed để tính toán các dữ liệu có sẵn thì sẽ cải thiện được performance app của các bạn. Điều tuyệt vời của computed là nó sẽ được cached nên giả sử bạn có 1 computed với hàng loạt tính toán, lặp trong đó, thì nếu các các biến phụ thuộc không thay đổi thì khi sử dụng nó sẽ chỉ mất thời gian tính 1 lần, những lần sau kết quả sẽ được sử dụng lại từ lần trước.
 
 
-+++ watcher : để có thể theo dõi sự biến đổi của dữ liệu(cx giống computed nhưng tổng quát hơn), từ đó áp dụng vào công việc thực tế của chính mình.(https://viblo.asia/p/bai-6-su-dung-watcher-trong-vuejs-YWOZr00P5Q0)
++++ watcher : để có thể theo dõi sự biến đổi của dữ liệu(cx giống computed nhưng tổng quát hơn), từ đó áp dụng vào công việc thực tế của chính mình, ngoài ra nó còn được dùng trong trường hợp cần bất đồng bộ, Tiếp theo, một trường hợp khá phổ biến là khi các bạn muốn watch khi có sự thay đổi của các thuộc tính bên trong một object.(https://viblo.asia/p/bai-6-su-dung-watcher-trong-vuejs-YWOZr00P5Q0)
 
 +++ bt khi ấn submit form thì nó sẽ reload trang sang 1 trang php
 v-on:submit.prevent="onSubmitForm($event)" cái này kiểu bỏ chuyển trang nếu submit form,
